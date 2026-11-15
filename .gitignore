@@ -29,3 +29,6 @@
 
 # Snapshot cheatcodes output
 /snapshots
+
+# Local AI tool directories (tool-specific; AGENTS.md is the shared entry point)
+/.claude
