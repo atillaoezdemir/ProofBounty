@@ -1,0 +1,29 @@
+{
+  "name": "proofbounty",
+  "version": "0.1.0",
+  "description": "Decentralized bug bounty platform for smart contracts",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.10.0"
+  },
+  "scripts": {
+    "compile": "hardhat build",
+    "test": "hardhat test",
+    "test:solidity": "hardhat test solidity",
+    "test:ts": "hardhat test nodejs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git.fiw.fhws.de/blockchain/blockchain.git"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-ignition": "^3.1.10",
+    "@nomicfoundation/hardhat-toolbox-viem": "^5.0.7",
+    "@types/node": "^22.20.5",
+    "forge-std": "github:foundry-rs/forge-std#v1.17.0",
+    "hardhat": "^3.22.0",
+    "typescript": "~6.0.3",
+    "viem": "^2.57.20"
+  }
+}
