@@ -1,11 +1,13 @@
 # ProofBounty
 
-ProofBounty is a decentralized bug bounty platform for smart contracts, built by a 4-person student
-team in the university course "Blockchain und Smart Contracts". Protocol teams post bounties
+ProofBounty is a decentralized bug bounty platform, built by a 4-person student team in the
+university course "Blockchain und Smart Contracts". Companies post bounties for their systems
 on-chain and lock the reward in escrow; whitehats commit a report hash, deliver the encrypted
 report off-chain, and are paid by rule: timeouts, bonds, and the platform's own juror-based
-arbitration system replace a central authority. Vulnerabilities are verified objectively by running
-the whitehat's PoC against a fork of the chain at a committed block.
+arbitration system replace a central authority. Targets are whatever systems a company puts in
+scope (websites, APIs, applications, smart contracts, ...). In a dispute, the whitehat's PoC is run
+in a reproduction environment that the company must provide for the version committed in the
+bounty.
 
 **Core framing:** We do not eliminate the intermediary entirely; we replace one party's arbitrary
 decision with a mechanism whose rules are visible to everyone.
@@ -43,10 +45,10 @@ contract.
 
 Use these role names consistently in docs and code (functions, events, variables):
 
-- **Protocol** — the team that posts a bounty and evaluates reports.
+- **Company** — the organization that posts a bounty and evaluates reports.
 - **Whitehat** — the security researcher who submits a report.
 - **Juror** — a staked member of the arbitration system; several jurors form a panel.
-- **Platform contracts** — ProofBounty's own contracts. Never call them "the protocol".
+- **Platform contracts** — ProofBounty's own contracts.
 
 ## Tech stack
 

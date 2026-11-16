@@ -1,7 +1,7 @@
 {
   "name": "proofbounty",
   "version": "0.1.0",
-  "description": "Decentralized bug bounty platform for smart contracts",
+  "description": "Decentralized bug bounty platform",
   "private": true,
   "type": "module",
   "engines": {

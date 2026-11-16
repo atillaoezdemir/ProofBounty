@@ -1,6 +1,6 @@
 # ProofBounty
 
-A decentralized bug bounty platform for smart contracts. Protocol teams post bounties on-chain and
+A decentralized bug bounty platform. Companies post bounties for their systems on-chain and
 lock the reward in escrow; whitehats are paid by transparent rules instead of one party's decision.
 
 > We do not eliminate the intermediary entirely; we replace one party's arbitrary decision with a

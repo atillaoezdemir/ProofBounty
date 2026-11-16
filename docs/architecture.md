@@ -9,12 +9,12 @@ Terms are explained briefly where they first appear.
 
 ## 1. Vision
 
-Smart contract teams need security vulnerabilities found and fixed quickly. Hackathons, bootcamps,
-and centralized bug bounty platforms are costly and require trusting an intermediary. Ethical
-hackers, on the other side, have no guarantee that they will be paid once they have disclosed a
-vulnerability.
+Companies need security vulnerabilities in their systems found and fixed quickly. Hackathons,
+bootcamps, and centralized bug bounty platforms are costly and require trusting an intermediary.
+Ethical hackers, on the other side, have no guarantee that they will be paid once they have
+disclosed a vulnerability.
 
-ProofBounty connects protocol teams directly with ethical hackers. Bounties with predefined rewards
+ProofBounty connects companies directly with ethical hackers. Bounties with predefined rewards
 are posted on-chain. The blockchain protects the hacker's rights and replaces a single central
 authority with transparent, rule-based mechanisms. It also creates a freelance market for security
 researchers.
@@ -26,12 +26,14 @@ researchers.
 
 ## 2. Scope
 
-- **Targets: smart contracts only.** A vulnerability is verified objectively: the chain is *forked*
-  (a local copy of the chain's full state is created) at a block number committed in the bounty,
-  and the whitehat's *PoC* (proof of concept — runnable exploit code that demonstrates the
-  vulnerability) is executed against that copy. Either the exploit works or it does not.
-- **Out of scope:** closed Web2 systems (websites, APIs, databases). See
-  [Future work](#9-future-work).
+- **Targets: any system a company puts in scope** — websites, APIs, applications, databases,
+  infrastructure, smart contracts.
+- **What the blockchain is used for:** the bounty listing, the escrow, the report commitments, the
+  payout rules, and the arbitration. The systems being tested are normally off-chain.
+- **Verification:** a report must contain a *PoC* (proof of concept — runnable exploit code or
+  exact reproducible steps that demonstrate the vulnerability). In a dispute, the PoC is run in a
+  *reproduction environment* — a running copy of the target at the version committed in the
+  bounty — which the company must provide (Sections 4.3 and 8).
 - **Tooling:** Hardhat 3 with TypeScript and Foundry-compatible Solidity tests.
 - **Network:** local Hardhat network for development; a public testnet for the demo (which one is
   open).
@@ -44,21 +46,20 @@ names).
 
 | Role | Description |
 | --- | --- |
-| **Protocol** | The project team that posts a bounty, defines scope and reward tiers, locks the reward in escrow, and evaluates reports. The protocol does its own report screening. |
+| **Company** | The organization that posts a bounty, defines scope and reward tiers, locks the reward in escrow, and evaluates reports. The company does its own report screening. |
 | **Whitehat** | The ethical hacker / security researcher who finds a vulnerability, commits the report hash on-chain, delivers the encrypted report, and receives the reward. |
 | **Juror** | A registered, staked member of the platform's own arbitration system. Only involved in disputes. Several jurors form a *panel* for each dispute. |
 | **Platform contracts** | ProofBounty's own contracts: the neutral vault and rule engine that enforce everything. |
 
-Naming rule: ProofBounty's own contracts are always called **"the platform contracts"**, never
-"the protocol". "Protocol" always means the team that posts a bounty.
+Naming rule: ProofBounty's own contracts are always called **"the platform contracts"**.
 
 ## 4. Core mechanisms
 
 ### 4.1 Escrow
 
 *Escrow* means funds are held by a neutral party — here, the platform contracts — until predefined
-conditions are met. The protocol locks the **full reward** when posting a bounty. Funds cannot be
-withdrawn while submissions are pending, plus a notice period. This prevents a protocol from
+conditions are met. The company locks the **full reward** when posting a bounty. Funds cannot be
+withdrawn while submissions are pending, plus a notice period. This prevents a company from
 emptying the escrow right after receiving a report.
 
 ### 4.2 Commit-reveal for reports
@@ -84,17 +85,23 @@ hash(report + salt + whitehatAddress)
 
 ### 4.3 Version commitment
 
-The bounty records the target contract address(es) and a fork block number (or a bytecode hash).
-Disputes are verified against exactly that state, so later patches do not matter.
+The bounty records a *version hash* for each target in scope: a hash that pins the exact version
+of the system the bounty refers to (for example a source commit hash or a build / container image
+digest). Disputes are verified against exactly that version, so later patches do not matter.
+
+Because the targets are normally closed, off-chain systems, nobody but the company can recreate
+that version. The company must therefore provide a reproduction environment for the committed
+version when a dispute is opened. **If the company does not provide the environment, it loses the
+dispute.** How the environment is delivered and how it is tied to the version hash is open.
 
 ### 4.4 Known-issues commitment
 
-The hash of the protocol's known-issues list is stored at bounty creation. A "we already knew this"
+The hash of the company's known-issues list is stored at bounty creation. A "we already knew this"
 claim is only valid if it is backed by this earlier on-chain commitment.
 
 ### 4.5 Report visibility: parallel, first valid report wins
 
-- The protocol sees all reports immediately (reports are handled in parallel, not queued).
+- The company sees all reports immediately (reports are handled in parallel, not queued).
 - A report is **valid** only if it contains reproducible steps, i.e. a runnable PoC.
 - The **first valid report** receives the reward.
 - Every rejection is recorded on-chain. Accepting a later report on the same issue after rejecting
@@ -105,7 +112,7 @@ claim is only valid if it is backed by this earlier on-chain commitment.
 
 ### 4.6 Timeouts
 
-If the protocol does not respond within the decision period, the reward is released to the whitehat
+If the company does not respond within the decision period, the reward is released to the whitehat
 automatically.
 
 ### 4.7 Bonds
@@ -115,7 +122,7 @@ makes bad-faith actions cost money.
 
 - **Submission bond:** a small bond paid by the whitehat with each submission; lost if the report is
   invalid. This is the spam protection.
-- **Rejection bond:** rejecting a report requires the protocol to post a bond and a reason.
+- **Rejection bond:** rejecting a report requires the company to post a bond and a reason.
 - **Dispute bond:** disputing a rejection requires the whitehat to post a bond.
 - The losing side of a dispute loses its bond.
 
@@ -135,14 +142,14 @@ checks whether an attestation exists.
 
 Publicly listed bounties are not the problem: listings are public on existing platforms too and do
 not imply that a vulnerability exists. The leak is **per-submission information**. "A critical
-report was just accepted for protocol X" tells attackers that a real, unpatched, high-value bug
-exists within a small set of contracts, which narrows their search.
+report was just accepted for company X" tells attackers that a real, unpatched, high-value bug
+exists within a known scope, which narrows their search.
 
 This problem is not fully solved yet.
 
 **Decided**
 
-- **Hidden severity on acceptance:** when accepting, the protocol commits the severity / reward
+- **Hidden severity on acceptance:** when accepting, the company commits the severity / reward
   tier only as a hash. The severity is not visible on-chain at acceptance time.
 
 **Ideas under evaluation (open — not decided)**
@@ -151,7 +158,7 @@ This problem is not fully solved yet.
   same fixed submission bond. No severity or category is visible at submission time. Since many
   submissions are invalid, a single submission event carries little information.
 - **Delayed payout:** the payout (which reveals the amount and therefore the severity) happens after
-  the protocol signals that the fix is deployed, or automatically after a maximum fix window —
+  the company signals that the fix is deployed, or automatically after a maximum fix window —
   whichever comes first.
 
 Known gaps in these ideas are listed in [open-questions.md](open-questions.md).
@@ -160,9 +167,9 @@ Known gaps in these ideas are listed in [open-questions.md](open-questions.md).
 
 **On-chain**
 
-- Bounty metadata: protocol address, reward tiers, deadlines
+- Bounty metadata: company address, reward tiers, deadlines
 - Scope hash
-- Target contract(s) and fork block
+- Target version hash(es)
 - Known-issues hash
 - Escrowed funds
 - Report commitments with timestamps
@@ -197,13 +204,13 @@ The concrete delivery channel for the demo is open.
 
 ## 7. Submission lifecycle
 
-1. The protocol posts a bounty and locks the reward.
+1. The company posts a bounty and locks the reward.
 2. The whitehat commits the report hash, pays the submission bond, and — if the bounty requires
    it — must hold a KYC attestation.
 3. The whitehat delivers the encrypted report off-chain and marks it as revealed on-chain.
 4. **Decision period** (e.g. 14 days):
    - **accept** (with hidden severity, Section 5) → payout (exact timing is open);
-   - **reject** → the protocol posts a bond and a reason;
+   - **reject** → the company posts a bond and a reason;
    - **silence** → automatic payout to the whitehat.
 5. **Appeal period** (e.g. 7 days): the whitehat may dispute, posting a bond.
 6. **Arbitration** (Section 8).
@@ -245,10 +252,12 @@ Oracle.
   On-chain randomness is manipulable (e.g. block-based values can be influenced by block
   producers). A method must be chosen and its limitations documented (open).
 - **Evidence:** the whitehat reveals the report and PoC to the selected jurors, encrypted to their
-  keys. The on-chain hash proves that it is the same report the protocol received. Both parties can
+  keys. The on-chain hash proves that it is the same report the company received. Both parties can
   submit evidence and their signed message chain.
-- **Verification:** jurors run the PoC against a fork at the committed block. Because targets are
-  smart contracts, the result is objective.
+- **Verification:** jurors run the PoC in the reproduction environment that the company must
+  provide for the committed version (Section 4.3). If the company does not provide it, the company
+  loses the dispute. The burden lies with the company because it is the only party that controls
+  the system.
 - **Voting:** commit-reveal. Jurors first submit a hash of their vote and reveal it later, so they
   cannot copy each other.
 - **Incentives:** jurors who vote with the majority are rewarded from the losing party's bond and
@@ -262,19 +271,17 @@ Oracle.
   fix window.
 - **Testing:** the arbitration contracts are covered with unit tests, *fuzz tests* (tests run with
   many random inputs), and scenario tests: honest majority, colluding minority, non-revealing
-  jurors, protocol never responding, etc.
+  jurors, company never responding, etc.
 
 ## 9. Future work
 
-- **Closed Web2 systems** (websites, APIs, databases). Designed approach: the bounty commits a
-  version hash; the protocol must provide a reproduction environment; and "if you don't provide the
-  environment, you lose the dispute".
 - **Privacy-preserving KYC** via zero-knowledge credentials (proving "I am verified" without
   revealing who you are).
 
 ## 10. Reference platforms
 
-For research and differentiation: Immunefi, Code4rena, HackenProof, and Sherlock (three-tier
-dispute system with UMA as the final instance). Most of these pay on-chain but still rely on a
-central team or committee for validation — which is the part ProofBounty replaces with a visible
-mechanism.
+For research and differentiation: HackerOne and Bugcrowd (centralized bug bounty platforms for
+company systems, where the platform or the company decides), and the Web3 platforms Immunefi,
+Code4rena, HackenProof, and Sherlock (three-tier dispute system with UMA as the final instance).
+Even the platforms that pay on-chain still rely on a central team or committee for validation —
+which is the part ProofBounty replaces with a visible mechanism.
