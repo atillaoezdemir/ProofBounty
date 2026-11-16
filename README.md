@@ -18,6 +18,7 @@ Student project for the course "Blockchain und Smart Contracts".
 - [docs/decisions.md](docs/decisions.md) — decision log with dates and rationale
 - [docs/open-questions.md](docs/open-questions.md) — unresolved items
 - [AGENTS.md](AGENTS.md) — entry point and working rules for AI coding tools
+- [Pitch deck](https://claude.ai/artifact/J7aFZxpPjfZP4AtQpxwcfP) — the 5-minute project pitch
 
 Tasks are tracked in GitLab issues and boards.
 
