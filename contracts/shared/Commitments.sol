@@ -10,12 +10,4 @@ library Commitments {
   ) internal pure returns (bytes32) {
     return keccak256(abi.encode(reportHash, salt, whitehat));
   }
-
-  function tier(
-    uint256 submissionId,
-    uint8 tierValue,
-    bytes32 salt
-  ) internal pure returns (bytes32) {
-    return keccak256(abi.encode(submissionId, tierValue, salt));
-  }
 }

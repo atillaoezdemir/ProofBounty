@@ -42,17 +42,13 @@ rationale of "—" means the team has not written one down yet.
 | D-13 | 2026-11-15 | Report visibility is parallel with "first valid report wins". The company sees all reports immediately. A report is valid only if it contains a runnable PoC. Every rejection is recorded on-chain. If a later report is chosen over an earlier one, the earlier reporter automatically gets a right to dispute. | Accepting a later report on the same issue after rejecting an earlier one becomes provably contradictory. |
 | D-14 | 2026-11-15 | Timeouts: if the company does not respond within the decision period, the reward is released to the whitehat automatically. | The company cannot stall after receiving the information. |
 | D-15 | 2026-11-15 | Bonds: rejecting requires the company to post a bond and a reason; disputing requires the whitehat to post a bond. The losing side loses its bond. | Makes bad-faith rejections and bad-faith disputes cost money. |
-| D-16 | 2026-11-15 | Severity disputes ("accepted, but only medium") go through the same dispute path as rejections. | One dispute mechanism instead of two. |
+| D-16 | 2026-11-25 | Each bounty has one fixed reward. A whitehat whose hint or partial solution is accepted can receive a part of it. | Keeps rulings and payouts simple while incomplete contributions still pay off. The mechanism is open (see open-questions.md). |
 | D-17 | 2026-11-15 | KYC is simulated: each bounty can require it; a mock verifier contract issues on-chain attestations; the bounty contract only checks that an attestation exists. No real KYC provider. Privacy-preserving KYC (zero-knowledge credentials) is Future Work. | Demonstrates the integration point without external dependencies. |
 
 ## Metadata protection
 
-| ID | Date | Decision | Rationale |
-| --- | --- | --- | --- |
-| D-18 | 2026-11-15 | Hidden severity on acceptance: the company commits the severity / reward tier only as a hash; it is not visible on-chain at acceptance time. | "A critical report was just accepted for company X" tells attackers that a real, unpatched bug exists. |
-
-Only D-18 is decided in this area. Uniform submissions and delayed payout are ideas under
-evaluation, not decisions (see open-questions.md).
+Nothing is decided in this area yet. Uniform submissions and delayed payout are ideas under
+evaluation (see open-questions.md).
 
 ## On-chain / off-chain
 
@@ -82,14 +78,12 @@ evaluation, not decisions (see open-questions.md).
 | ID | Date | Decision | Rationale |
 | --- | --- | --- | --- |
 | D-32 | 2026-11-24 | The contracts call each other through the interfaces in `contracts/interfaces/`. Interface changes are agreed with the owners of the calling contracts. | The four work areas can progress in parallel. |
-| D-33 | 2026-11-24 | A ruling is a single value `awardedTier`: 0 = report invalid, 1 and above = the tier to pay. | Rejections and severity disputes share one path (D-16). |
-| D-34 | 2026-11-24 | The locked reward (D-09) equals the top tier. If a lower tier is paid, the rest returns to the company and the bounty closes; a bounty pays one reward. | The escrow always covers the highest possible ruling. |
-| D-35 | 2026-11-24 | In a dispute, both bonds move to the arbitration contract, which returns the winner's bond and pays the jurors. | One place distributes bonds and juror rewards (D-29). |
-| D-36 | 2026-11-24 | Extends D-15: the company posts the same decision bond on accept as on reject. The bond of an undisputed acceptance is returned. | The company has something to lose in a severity dispute, and the bond does not reveal the tier. |
-| D-37 | 2026-11-24 | Extends D-14: if the decision period passes in silence, the top tier is paid to the earliest committed report that has been delivered. | No tier was chosen, so the company bears the cost of its silence; one clear recipient. |
-| D-38 | 2026-11-24 | Rewards, bonds, and juror stakes are paid in testnet ETH. | One asset, no token contract needed. |
-| D-39 | 2026-11-24 | Commitments use `keccak256(abi.encode(...))` as in `contracts/shared/Commitments.sol`; the report enters as its hash. The tier commitment includes the submission ID and a secret salt. | Contracts and dApp compute identical hashes; the salt prevents trying each tier. |
-| D-40 | 2026-11-24 | Public encryption keys are published in an on-chain key registry. | A wallet address alone is not enough to encrypt to its owner. |
+| D-33 | 2026-11-25 | A ruling is a yes/no answer: the report is valid or invalid. | One clear question for the jurors. |
+| D-34 | 2026-11-24 | In a dispute, both bonds move to the arbitration contract, which returns the winner's bond and pays the jurors. | One place distributes bonds and juror rewards (D-29). |
+| D-35 | 2026-11-24 | Extends D-14: if the decision period passes in silence, the reward is paid to the earliest committed report that has been delivered. | One clear recipient. |
+| D-36 | 2026-11-24 | Rewards, bonds, and juror stakes are paid in testnet ETH. | One asset, no token contract needed. |
+| D-37 | 2026-11-24 | The report commitment is `keccak256(abi.encode(reportHash, salt, whitehat))` as in `contracts/shared/Commitments.sol`. | Contracts and dApp compute identical hashes. |
+| D-38 | 2026-11-24 | Public encryption keys are published in an on-chain key registry. | A wallet address alone is not enough to encrypt to its owner. |
 
 ## Repository setup choices
 

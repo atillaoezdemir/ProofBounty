@@ -28,8 +28,8 @@ filled in by the owner of the contract.
 
 - Before changing architecture or contract logic, read `docs/architecture.md` and
   `docs/decisions.md`.
-- Treat the decisions in `docs/decisions.md` as final. In metadata protection, only hidden severity
-  is decided; the other ideas are open. If someone proposes changing a decision, point out the
+- Treat the decisions in `docs/decisions.md` as final. In metadata protection, nothing is
+  decided yet. If someone proposes changing a decision, point out the
   existing decision and its rationale, and change it only after the team agrees.
 - When a decision is made or changed, update `docs/decisions.md` (with date and rationale) and, if
   affected, `docs/architecture.md` and `docs/open-questions.md` in the same change. Doc updates go

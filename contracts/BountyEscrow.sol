@@ -34,7 +34,7 @@ contract BountyEscrow is IBountyEscrow, Linked {
     revert NotImplemented();
   }
 
-  function payout(uint256, address, uint8) external onlySubmissions {
+  function payout(uint256, address) external onlySubmissions {
     revert NotImplemented();
   }
 }

@@ -28,19 +28,15 @@ contract Submissions is ISubmissions {
     revert NotImplemented();
   }
 
-  function dispute(uint256, uint8, bytes32) external payable {
+  function dispute(uint256, bytes32) external payable {
     revert NotImplemented();
   }
 
-  function accept(uint256, bytes32) external payable {
+  function accept(uint256) external {
     revert NotImplemented();
   }
 
   function reject(uint256, bytes32, bytes32) external payable {
-    revert NotImplemented();
-  }
-
-  function openTier(uint256, uint8, bytes32) external {
     revert NotImplemented();
   }
 
@@ -52,7 +48,7 @@ contract Submissions is ISubmissions {
     revert NotImplemented();
   }
 
-  function onRuling(uint256, uint8) external {
+  function onRuling(uint256, bool) external {
     require(msg.sender == address(arbitration), NotArbitration());
     revert NotImplemented();
   }

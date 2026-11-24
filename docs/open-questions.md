@@ -6,24 +6,26 @@ Unresolved design items. When one is resolved: remove it here, add an entry to
 
 Who works on what is tracked in GitLab, not here.
 
-## Hints
+## Partial rewards
 
-A participant may contribute a hint (an incomplete lead) that helps another participant find a
-valid vulnerability, and would likely receive a small share of the reward.
+Decided (D-16): a whitehat whose hint (an incomplete lead) or partial solution is accepted can
+receive a part of the reward. The team member who takes up this topic works out the mechanism.
 
-- How are hints submitted?
-- How is a hint linked to the final report?
-- How is it rewarded?
-
-The team member who takes up this topic works out the details.
+- How are hints and partial solutions submitted, and how do they differ from a full report?
+- Who accepts them, and can a rejection be disputed?
+- How is a contribution linked to the final report, and how is its benefit proven?
+- How large is the part, who sets it, and is it fixed when the bounty is posted?
+- Does it come out of the fixed reward? If so, what does the final reporter receive?
+- When is it paid, and what happens if no full report follows or several contributions exist?
+- What happens to it when the company stays silent or goes to arbitration, where a ruling is
+  valid / invalid (D-33)?
+- How is splitting one finding into several contributions prevented?
+- Interface impact: `payout` currently pays the whole reward and closes the bounty.
 
 ## Metadata protection
 
 How do we keep per-submission information from signaling that an unpatched vulnerability exists?
 (Background: architecture.md Section 5.)
-
-Hidden severity is decided, but it only protects until the payout reveals the amount. So payout
-timing remains open.
 
 Ideas under evaluation:
 
@@ -47,16 +49,13 @@ Known gaps:
 ## Parameters
 
 - Concrete durations: decision period, appeal period, withdrawal notice period, maximum fix window.
-- Bond amounts: submission bond, decision bond, dispute bond.
-- Severity classification scheme (e.g. based on an existing industry standard).
+- Bond amounts: submission bond, rejection bond, dispute bond.
 
 ## Arbitration
 
 - Juror selection randomness method (and documenting its limitations).
 - Panel size.
 - Whether an appeal round is included.
-- How a panel reaches a result when its votes split over several tiers.
-- Who loses the bond when the awarded tier lies between the company's and the claimed tier.
 
 ## Off-chain and frontend
 
@@ -84,9 +83,6 @@ Details of D-02, D-11, and D-27. Not yet discussed by the team.
 
 Gaps noticed while writing the docs. They are listed here so nobody fills them in silently.
 
-- **Opening the hidden severity.** When and how does the whitehat learn the committed tier, given
-  that they must be able to dispute it within the appeal period? What happens if the company never
-  opens it?
 - **Where do forfeited bonds go?** A lost submission bond (invalid report, no dispute) — to the
   company, a platform treasury, or burned? And is the company's rejection bond returned in full
   if the whitehat does not dispute?
@@ -96,7 +92,7 @@ Gaps noticed while writing the docs. They are listed here so nobody fills them i
 ## Raised while writing the interfaces (not yet discussed by the team)
 
 - **Invalid reports and silence.** An invalid report that is first in line would collect the reward
-  when the company stays silent (D-37).
+  when the company stays silent (D-35).
 - **Reveal deadline.** A whitehat who commits and never delivers would block the withdrawal. The
   interface has a `revealPeriod` for this; confirm it and decide what happens to the bond.
 - **Other pending submissions.** What happens to them, and to their bonds, once the bounty has paid?

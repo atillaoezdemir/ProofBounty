@@ -23,13 +23,4 @@ describe("Commitments", async function () {
     );
     assert.equal(await harness.read.report([reportHash, salt, whitehat]), expected);
   });
-
-  it("tier commitment matches the off-chain encoding", async function () {
-    const harness = await viem.deployContract("CommitmentsHarness");
-
-    const expected = keccak256(
-      encodeAbiParameters(parseAbiParameters("uint256, uint8, bytes32"), [7n, 2, salt]),
-    );
-    assert.equal(await harness.read.tier([7n, 2, salt]), expected);
-  });
 });

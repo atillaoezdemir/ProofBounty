@@ -43,16 +43,16 @@ contract LinkedTest is Test {
     vm.expectRevert(Linked.NotSubmissions.selector);
     escrow.clearPending(1);
     vm.expectRevert(Linked.NotSubmissions.selector);
-    escrow.payout(1, address(3), 1);
+    escrow.payout(1, address(3));
   }
 
   function test_OnlySubmissionsOpensDispute() public {
     vm.expectRevert(Linked.NotSubmissions.selector);
-    arbitration.openDispute(1, address(1), address(2), 1, 0, 0);
+    arbitration.openDispute(1, address(1), address(2), 0, 0);
   }
 
   function test_OnlyArbitrationRules() public {
     vm.expectRevert(Submissions.NotArbitration.selector);
-    submissions.onRuling(1, 0);
+    submissions.onRuling(1, false);
   }
 }

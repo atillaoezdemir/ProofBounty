@@ -10,7 +10,6 @@ contract Arbitration is IArbitration, Linked {
     uint256,
     address,
     address,
-    uint8,
     uint256,
     uint256
   ) external payable onlySubmissions returns (uint256) {

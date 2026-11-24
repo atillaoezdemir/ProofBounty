@@ -46,7 +46,7 @@ names).
 
 | Role | Description |
 | --- | --- |
-| **Company** | The organization that posts a bounty, defines scope and reward tiers, locks the reward in escrow, and evaluates reports. The company does its own report screening. |
+| **Company** | The organization that posts a bounty, defines scope and reward, locks the reward in escrow, and evaluates reports. The company does its own report screening. |
 | **Whitehat** | The ethical hacker / security researcher who finds a vulnerability, commits the report hash on-chain, delivers the encrypted report, and receives the reward. |
 | **Juror** | A registered, staked member of the platform's own arbitration system. Only involved in disputes. Several jurors form a *panel* for each dispute. |
 | **Platform contracts** | ProofBounty's own contracts: the neutral vault and rule engine that enforce everything. |
@@ -58,10 +58,9 @@ Naming rule: ProofBounty's own contracts are always called **"the platform contr
 ### 4.1 Escrow
 
 *Escrow* means funds are held by a neutral party — here, the platform contracts — until predefined
-conditions are met. The company locks the **full reward** (the top tier) when posting a bounty. If a
-lower tier is paid, the rest returns to the company and the bounty closes. Funds cannot be
-withdrawn while submissions are pending, plus a notice period. This prevents a company from
-emptying the escrow right after receiving a report.
+conditions are met. The company locks the **full reward** when posting a bounty. Each bounty
+has one fixed reward. Funds cannot be withdrawn while submissions are pending, plus a notice period.
+This prevents a company from emptying the escrow right after receiving a report.
 
 ### 4.2 Commit-reveal for reports
 
@@ -111,11 +110,11 @@ claim is only valid if it is backed by this earlier on-chain commitment.
   an earlier one is therefore provably contradictory.
 - If a later report is chosen over an earlier one, the earlier reporter automatically gets a right
   to dispute.
-- Whether contributors of hints receive a small share is open.
+- Hints and partial solutions can earn a partial reward (Section 4.8).
 
 ### 4.6 Timeouts
 
-If the company does not respond within the decision period, the top tier is released automatically
+If the company does not respond within the decision period, the reward is released automatically
 to the earliest committed report that has been delivered.
 
 ### 4.7 Bonds
@@ -125,16 +124,15 @@ makes bad-faith actions cost money.
 
 - **Submission bond:** a small bond paid by the whitehat with each submission; lost if the report is
   invalid. This is the spam protection.
-- **Decision bond:** accepting or rejecting a report requires the company to post a bond; rejecting
-  also requires a reason. The bond of an undisputed acceptance is returned.
-- **Dispute bond:** disputing a decision requires the whitehat to post a bond.
+- **Rejection bond:** rejecting a report requires the company to post a bond and a reason.
+- **Dispute bond:** disputing a rejection requires the whitehat to post a bond.
 - In a dispute, both bonds move to the arbitration contract. The losing side loses its bond; the
   winner's bond is returned.
 
-### 4.8 Severity disputes
+### 4.8 Partial rewards
 
-"Accepted, but only medium severity" goes through the same dispute path as a rejection. The ruling is
-one value: 0 = report invalid, otherwise the tier to pay.
+A whitehat whose hint or partial solution is accepted can receive a part of the reward. The
+mechanism is open.
 
 ### 4.9 Simulated KYC
 
@@ -144,28 +142,22 @@ on-chain *attestations* (signed statements such as "verified, not sanctioned") t
 addresses. There is no real KYC provider and no external connection. The bounty contract only
 checks whether an attestation exists.
 
-## 5. Metadata protection (partly decided)
+## 5. Metadata protection (open)
 
 Publicly listed bounties are not the problem: listings are public on existing platforms too and do
-not imply that a vulnerability exists. The leak is **per-submission information**. "A critical
-report was just accepted for company X" tells attackers that a real, unpatched, high-value bug
-exists within a known scope, which narrows their search.
+not imply that a vulnerability exists. The leak is **per-submission information**. "A
+report was just accepted for company X" tells attackers that a real, unpatched bug exists within a
+known scope, which narrows their search.
 
-This problem is not fully solved yet.
-
-**Decided**
-
-- **Hidden severity on acceptance:** when accepting, the company commits the severity / reward
-  tier only as a salted hash. The severity is not visible on-chain at acceptance time.
+This problem is not solved yet.
 
 **Ideas under evaluation (open — not decided)**
 
 - **Uniform submissions:** every submission looks the same on-chain — a commitment hash plus the
-  same fixed submission bond. No severity or category is visible at submission time. Since many
+  same fixed submission bond. No category is visible at submission time. Since many
   submissions are invalid, a single submission event carries little information.
-- **Delayed payout:** the payout (which reveals the amount and therefore the severity) happens after
-  the company signals that the fix is deployed, or automatically after a maximum fix window —
-  whichever comes first.
+- **Delayed payout:** the payout happens after the company signals that the fix is deployed, or
+  automatically after a maximum fix window — whichever comes first.
 
 Known gaps in these ideas are listed in [open-questions.md](open-questions.md).
 
@@ -173,7 +165,7 @@ Known gaps in these ideas are listed in [open-questions.md](open-questions.md).
 
 **On-chain**
 
-- Bounty metadata: company address, reward tiers, deadlines
+- Bounty metadata: company address, reward, deadlines
 - Scope hash
 - Target version hash(es)
 - Known-issues hash
@@ -216,8 +208,7 @@ The concrete delivery channel for the demo is open.
    it — must hold a KYC attestation.
 3. The whitehat delivers the encrypted report off-chain and marks it as revealed on-chain.
 4. **Decision period** (e.g. 14 days):
-   - **accept** (with hidden severity, Section 5) → the company posts a bond, then payout (exact
-     timing is open);
+   - **accept** → payout (exact timing is open);
    - **reject** → the company posts a bond and a reason;
    - **silence** → automatic payout (Section 4.6).
 5. **Appeal period** (e.g. 7 days): the whitehat may dispute, posting a bond.
@@ -235,8 +226,6 @@ Durations and bond amounts are examples; the concrete values are open.
                                          ▼      dispute        │ ruling
                                      rejected ──────────▶ disputed
 ```
-
-A severity dispute ("accepted, but too low") enters `disputed` from `accepted` in the same way.
 
 **Key insight:** information cannot be taken back, but money can be held. Escrow, timeouts, and
 bonds solve the *fair exchange problem* (two parties who do not trust each other each want the
