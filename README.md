@@ -8,8 +8,7 @@ lock the reward in escrow; whitehats are paid by transparent rules instead of on
 
 Student project for the course "Blockchain und Smart Contracts".
 
-**Status:** documentation and tooling are set up. The platform contracts are not written yet; the
-`Counter` contract is only a placeholder to check that the toolchain works.
+**Status:** interfaces and contract skeletons are in place; the contract logic is being implemented.
 
 ## Documentation
 

@@ -58,7 +58,8 @@ Naming rule: ProofBounty's own contracts are always called **"the platform contr
 ### 4.1 Escrow
 
 *Escrow* means funds are held by a neutral party — here, the platform contracts — until predefined
-conditions are met. The company locks the **full reward** when posting a bounty. Funds cannot be
+conditions are met. The company locks the **full reward** (the top tier) when posting a bounty. If a
+lower tier is paid, the rest returns to the company and the bounty closes. Funds cannot be
 withdrawn while submissions are pending, plus a notice period. This prevents a company from
 emptying the escrow right after receiving a report.
 
@@ -75,6 +76,8 @@ Before disclosing anything, the whitehat writes on-chain:
 ```
 hash(report + salt + whitehatAddress)
 ```
+
+The exact encoding is in `contracts/shared/Commitments.sol`.
 
 - This proves **priority** (who committed first) and **content integrity** (the report cannot be
   changed afterwards).
@@ -112,8 +115,8 @@ claim is only valid if it is backed by this earlier on-chain commitment.
 
 ### 4.6 Timeouts
 
-If the company does not respond within the decision period, the reward is released to the whitehat
-automatically.
+If the company does not respond within the decision period, the top tier is released automatically
+to the earliest committed report that has been delivered.
 
 ### 4.7 Bonds
 
@@ -122,13 +125,16 @@ makes bad-faith actions cost money.
 
 - **Submission bond:** a small bond paid by the whitehat with each submission; lost if the report is
   invalid. This is the spam protection.
-- **Rejection bond:** rejecting a report requires the company to post a bond and a reason.
-- **Dispute bond:** disputing a rejection requires the whitehat to post a bond.
-- The losing side of a dispute loses its bond.
+- **Decision bond:** accepting or rejecting a report requires the company to post a bond; rejecting
+  also requires a reason. The bond of an undisputed acceptance is returned.
+- **Dispute bond:** disputing a decision requires the whitehat to post a bond.
+- In a dispute, both bonds move to the arbitration contract. The losing side loses its bond; the
+  winner's bond is returned.
 
 ### 4.8 Severity disputes
 
-"Accepted, but only medium severity" goes through the same dispute path as a rejection.
+"Accepted, but only medium severity" goes through the same dispute path as a rejection. The ruling is
+one value: 0 = report invalid, otherwise the tier to pay.
 
 ### 4.9 Simulated KYC
 
@@ -150,7 +156,7 @@ This problem is not fully solved yet.
 **Decided**
 
 - **Hidden severity on acceptance:** when accepting, the company commits the severity / reward
-  tier only as a hash. The severity is not visible on-chain at acceptance time.
+  tier only as a salted hash. The severity is not visible on-chain at acceptance time.
 
 **Ideas under evaluation (open — not decided)**
 
@@ -178,6 +184,7 @@ Known gaps in these ideas are listed in [open-questions.md](open-questions.md).
 - Payments
 - Arbitration data: stakes, vote commitments, rulings
 - KYC attestations (simulated)
+- Public encryption keys
 - Reputation counters
 
 **Off-chain**
@@ -209,9 +216,10 @@ The concrete delivery channel for the demo is open.
    it — must hold a KYC attestation.
 3. The whitehat delivers the encrypted report off-chain and marks it as revealed on-chain.
 4. **Decision period** (e.g. 14 days):
-   - **accept** (with hidden severity, Section 5) → payout (exact timing is open);
+   - **accept** (with hidden severity, Section 5) → the company posts a bond, then payout (exact
+     timing is open);
    - **reject** → the company posts a bond and a reason;
-   - **silence** → automatic payout to the whitehat.
+   - **silence** → automatic payout (Section 4.6).
 5. **Appeal period** (e.g. 7 days): the whitehat may dispute, posting a bond.
 6. **Arbitration** (Section 8).
 7. The contract executes the ruling; the loser forfeits its bond.

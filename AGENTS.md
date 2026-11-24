@@ -12,9 +12,8 @@ bounty.
 **Core framing:** We do not eliminate the intermediary entirely; we replace one party's arbitrary
 decision with a mechanism whose rules are visible to everyone.
 
-**Status:** docs and tooling only. The platform contracts are not written yet.
-`contracts/Counter.sol` and its tests are a toolchain placeholder — delete them with the first real
-contract.
+**Status:** interfaces and contract skeletons. Functions that revert with `NotImplemented` are to be
+filled in by the owner of the contract.
 
 ## Where to find what
 
@@ -71,7 +70,7 @@ npm run test:ts          # TypeScript tests only
 ## Layout
 
 ```
-contracts/          Solidity sources
+contracts/          contracts, interfaces/ (how they call each other), shared/, test/ (harnesses)
 test/               Solidity tests (*.t.sol) and TypeScript tests (*.ts)
 scripts/            deployment scripts
 frontend/           dApp (later phase)

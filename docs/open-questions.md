@@ -40,16 +40,14 @@ Known gaps:
 - A well-known whitehat address submitting to a bounty is a signal on its own (reputation vs.
   privacy trade-off).
 
-## Network and tokens
+## Network
 
 - Exact demo testnet (or L2 testnet).
-- Reward token: ETH or an ERC-20 stablecoin.
-- Token used for juror staking.
 
 ## Parameters
 
 - Concrete durations: decision period, appeal period, withdrawal notice period, maximum fix window.
-- Bond amounts: submission bond, rejection bond, dispute bond.
+- Bond amounts: submission bond, decision bond, dispute bond.
 - Severity classification scheme (e.g. based on an existing industry standard).
 
 ## Arbitration
@@ -57,6 +55,8 @@ Known gaps:
 - Juror selection randomness method (and documenting its limitations).
 - Panel size.
 - Whether an appeal round is included.
+- How a panel reaches a result when its votes split over several tiers.
+- Who loses the bond when the awarded tier lies between the company's and the claimed tier.
 
 ## Off-chain and frontend
 
@@ -84,12 +84,20 @@ Details of D-02, D-11, and D-27. Not yet discussed by the team.
 
 Gaps noticed while writing the docs. They are listed here so nobody fills them in silently.
 
-- **Hidden severity needs a salt and an opening.** There are only a few severity tiers, so a plain
-  `hash(tier)` can be reversed by trying each tier. The commitment needs a secret salt. Also: when
-  and how does the whitehat learn the committed tier, given that they must be able to dispute it
-  within the appeal period?
+- **Opening the hidden severity.** When and how does the whitehat learn the committed tier, given
+  that they must be able to dispute it within the appeal period? What happens if the company never
+  opens it?
 - **Where do forfeited bonds go?** A lost submission bond (invalid report, no dispute) — to the
   company, a platform treasury, or burned? And is the company's rejection bond returned in full
   if the whitehat does not dispute?
 - **Who decides that a submission bond is lost?** If the company's rejection alone forfeits it,
   the whitehat's only remedy is a dispute; confirm this is intended.
+
+## Raised while writing the interfaces (not yet discussed by the team)
+
+- **Invalid reports and silence.** An invalid report that is first in line would collect the reward
+  when the company stays silent (D-37).
+- **Reveal deadline.** A whitehat who commits and never delivers would block the withdrawal. The
+  interface has a `revealPeriod` for this; confirm it and decide what happens to the bond.
+- **Other pending submissions.** What happens to them, and to their bonds, once the bounty has paid?
+- **Order of payouts.** Can a later report be paid while an earlier one is still open or in dispute?

@@ -77,6 +77,20 @@ evaluation, not decisions (see open-questions.md).
 | D-30 | 2026-11-15 | To limit exposure of vulnerability details, disputes may be heard after the fix window. | Fewer people see an unpatched vulnerability. |
 | D-31 | 2026-11-15 | Arbitration contracts are covered with unit, fuzz, and scenario tests (honest majority, colluding minority, non-revealing jurors, company never responding, etc.). | — |
 
+## Contract interfaces
+
+| ID | Date | Decision | Rationale |
+| --- | --- | --- | --- |
+| D-32 | 2026-11-24 | The contracts call each other through the interfaces in `contracts/interfaces/`. Interface changes are agreed with the owners of the calling contracts. | The four work areas can progress in parallel. |
+| D-33 | 2026-11-24 | A ruling is a single value `awardedTier`: 0 = report invalid, 1 and above = the tier to pay. | Rejections and severity disputes share one path (D-16). |
+| D-34 | 2026-11-24 | The locked reward (D-09) equals the top tier. If a lower tier is paid, the rest returns to the company and the bounty closes; a bounty pays one reward. | The escrow always covers the highest possible ruling. |
+| D-35 | 2026-11-24 | In a dispute, both bonds move to the arbitration contract, which returns the winner's bond and pays the jurors. | One place distributes bonds and juror rewards (D-29). |
+| D-36 | 2026-11-24 | Extends D-15: the company posts the same decision bond on accept as on reject. The bond of an undisputed acceptance is returned. | The company has something to lose in a severity dispute, and the bond does not reveal the tier. |
+| D-37 | 2026-11-24 | Extends D-14: if the decision period passes in silence, the top tier is paid to the earliest committed report that has been delivered. | No tier was chosen, so the company bears the cost of its silence; one clear recipient. |
+| D-38 | 2026-11-24 | Rewards, bonds, and juror stakes are paid in testnet ETH. | One asset, no token contract needed. |
+| D-39 | 2026-11-24 | Commitments use `keccak256(abi.encode(...))` as in `contracts/shared/Commitments.sol`; the report enters as its hash. The tier commitment includes the submission ID and a secret salt. | Contracts and dApp compute identical hashes; the salt prevents trying each tier. |
+| D-40 | 2026-11-24 | Public encryption keys are published in an on-chain key registry. | A wallet address alone is not enough to encrypt to its owner. |
+
 ## Repository setup choices
 
 Small, easily reversible choices made during repository setup. Not team decisions; change them
@@ -86,6 +100,6 @@ freely if the team prefers otherwise.
 | --- | --- | --- | --- |
 | S-01 | 2026-11-15 | Hardhat template: `node:test` + viem (not Mocha + ethers). | Hardhat 3's default; viem is also the usual base for a modern dApp frontend. |
 | S-02 | 2026-11-15 | Solidity 0.8.34, as set by the template. | Current compiler at setup time. |
-| S-03 | 2026-11-15 | `contracts/Counter.sol` and its two tests are kept as a toolchain smoke test and are to be deleted with the first real contract. | Gives a working `npm test` from day one. |
+| S-03 | 2026-11-24 | Contracts start as skeletons whose functions revert with `NotImplemented`; the owner of each contract fills them in. | Everything compiles from day one. |
 | S-04 | 2026-11-15 | The template's Hardhat Ignition sample module was removed; `scripts/` is empty. Whether deployment uses Ignition modules or plain scripts is decided when deployment is first needed. | The agreed layout has `/scripts` for deployment. |
 | S-05 | 2026-11-15 | The `sepolia` network entry in `hardhat.config.ts` is a template placeholder, not a testnet decision. | The demo testnet is an open question. |
