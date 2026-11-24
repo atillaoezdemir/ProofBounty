@@ -114,8 +114,8 @@ claim is only valid if it is backed by this earlier on-chain commitment.
 
 ### 4.6 Timeouts
 
-If the company does not respond within the decision period, the reward is released automatically
-to the earliest committed report that has been delivered.
+If the company does not respond within the decision period, the reward is released to the whitehat
+automatically. Who is paid when several reports are waiting is open.
 
 ### 4.7 Bonds
 

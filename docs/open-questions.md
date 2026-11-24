@@ -91,8 +91,8 @@ Gaps noticed while writing the docs. They are listed here so nobody fills them i
 
 ## Raised while writing the interfaces (not yet discussed by the team)
 
-- **Invalid reports and silence.** An invalid report that is first in line would collect the reward
-  when the company stays silent (D-35).
+- **Silence (D-14).** Who is paid when the company stays silent on several reports? How is an invalid
+  report kept from collecting the reward this way?
 - **Reveal deadline.** A whitehat who commits and never delivers would block the withdrawal. The
   interface has a `revealPeriod` for this; confirm it and decide what happens to the bond.
 - **Other pending submissions.** What happens to them, and to their bonds, once the bounty has paid?

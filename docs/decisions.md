@@ -80,10 +80,9 @@ evaluation (see open-questions.md).
 | D-32 | 2026-11-24 | The contracts call each other through the interfaces in `contracts/interfaces/`. Interface changes are agreed with the owners of the calling contracts. | The four work areas can progress in parallel. |
 | D-33 | 2026-11-25 | A ruling is a yes/no answer: the report is valid or invalid. | One clear question for the jurors. |
 | D-34 | 2026-11-24 | In a dispute, both bonds move to the arbitration contract, which returns the winner's bond and pays the jurors. | One place distributes bonds and juror rewards (D-29). |
-| D-35 | 2026-11-24 | Extends D-14: if the decision period passes in silence, the reward is paid to the earliest committed report that has been delivered. | One clear recipient. |
-| D-36 | 2026-11-24 | Rewards, bonds, and juror stakes are paid in testnet ETH. | One asset, no token contract needed. |
-| D-37 | 2026-11-24 | The report commitment is `keccak256(abi.encode(reportHash, salt, whitehat))` as in `contracts/shared/Commitments.sol`. | Contracts and dApp compute identical hashes. |
-| D-38 | 2026-11-24 | Public encryption keys are published in an on-chain key registry. | A wallet address alone is not enough to encrypt to its owner. |
+| D-35 | 2026-11-24 | Rewards, bonds, and juror stakes are paid in testnet ETH. | One asset, no token contract needed. |
+| D-36 | 2026-11-24 | The report commitment is `keccak256(abi.encode(reportHash, salt, whitehat))` as in `contracts/shared/Commitments.sol`. | Contracts and dApp compute identical hashes. |
+| D-37 | 2026-11-24 | Public encryption keys are published in an on-chain key registry. | A wallet address alone is not enough to encrypt to its owner. |
 
 ## Repository setup choices
 
