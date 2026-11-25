@@ -51,19 +51,6 @@
   gap: 1rem;
 }
 
-.checkbox-field {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  cursor: pointer;
-  font-size: 0.875rem;
-  color: var(--color-text);
-}
-
-.checkbox-field input[type="checkbox"] {
-  width: auto;
-}
-
 .submit-btn {
   align-self: flex-start;
   margin-top: 0.5rem;

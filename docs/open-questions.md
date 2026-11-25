@@ -104,5 +104,7 @@ Gaps noticed while writing the docs. They are listed here so nobody fills them i
   target version identifiers live so that whitehats can read them?
 - **Encoding of the bounty hashes.** How are scope, target versions and known issues turned into
   hashes? The mock form uses keccak256 of the UTF-8 text.
+- **`requiresKyc` in `BountyParams`.** KYC is mandatory (D-17), so the field is redundant. Remove it
+  from `IBountyEscrow` with the contract owners (D-32)? The dApp sends `true` until then.
 - **Known-issues secrecy.** The hash of a short known-issues list can be guessed by trial hashing.
   Does it need a salt?

@@ -13,7 +13,6 @@ export function BountyCard({ bounty }: { bounty: ListedBounty }) {
     ["Decision period", formatPeriod(params.decisionPeriod)],
     ["Appeal period", formatPeriod(params.appealPeriod)],
     ["Notice period", formatPeriod(params.noticePeriod)],
-    ["KYC", params.requiresKyc ? "Required" : "Not required"],
   ];
 
   return (

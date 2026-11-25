@@ -43,7 +43,7 @@ rationale of "—" means the team has not written one down yet.
 | D-14 | 2026-11-15 | Timeouts: if the company does not respond within the decision period, the reward is released to the whitehat automatically. | The company cannot stall after receiving the information. |
 | D-15 | 2026-11-15 | Bonds: rejecting requires the company to post a bond and a reason; disputing requires the whitehat to post a bond. The losing side loses its bond. | Makes bad-faith rejections and bad-faith disputes cost money. |
 | D-16 | 2026-11-25 | Each bounty has one fixed reward. A whitehat whose hint or partial solution is accepted can receive a part of it. | Keeps rulings and payouts simple while incomplete contributions still pay off. The mechanism is open (see open-questions.md). |
-| D-17 | 2026-11-15 | KYC is simulated: each bounty can require it; a mock verifier contract issues on-chain attestations; the bounty contract only checks that an attestation exists. No real KYC provider. Privacy-preserving KYC (zero-knowledge credentials) is Future Work. | Demonstrates the integration point without external dependencies. |
+| D-17 | 2026-11-15 | KYC is simulated and mandatory: every whitehat needs an attestation to submit; a mock verifier contract issues on-chain attestations; the bounty contract only checks that an attestation exists. No real KYC provider. Privacy-preserving KYC (zero-knowledge credentials) is Future Work. | Demonstrates the integration point without external dependencies. |
 
 ## Metadata protection
 
@@ -63,7 +63,7 @@ evaluation (see open-questions.md).
 
 | ID | Date | Decision | Rationale |
 | --- | --- | --- | --- |
-| D-23 | 2026-11-15 | Submission lifecycle: post + lock → commit (+ bond, KYC if required) → off-chain delivery + reveal → decision period (accept / reject / silence = auto-payout) → appeal period → arbitration → ruling executed, loser forfeits bond. | Information cannot be taken back, but money can be held: escrow + timeouts + bonds solve the fair exchange problem. |
+| D-23 | 2026-11-15 | Submission lifecycle: post + lock → commit (+ bond, KYC attestation) → off-chain delivery + reveal → decision period (accept / reject / silence = auto-payout) → appeal period → arbitration → ruling executed, loser forfeits bond. | Information cannot be taken back, but money can be held: escrow + timeouts + bonds solve the fair exchange problem. |
 | D-24 | 2026-11-15 | The arbitration system is built and tested as part of this project — not a mock, not an external service. Initial design inspired by Kleros and the UMA Optimistic Oracle. | It is the oracle for "is this vulnerability valid?" and the core of replacing the central authority. |
 | D-25 | 2026-11-15 | Jurors register and stake tokens. A small odd-numbered panel is drawn per dispute, weighted by stake. | Odd size avoids ties; stake gives jurors something to lose. |
 | D-26 | 2026-11-15 | Evidence: the whitehat reveals report and PoC to the selected jurors (encrypted to their keys). Both parties can submit evidence and their signed message chain. | The on-chain hash proves it is the same report the company received. |

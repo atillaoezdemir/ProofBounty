@@ -6,7 +6,7 @@ import { type BountyFormValues, INITIAL_VALUES, parseBountyForm } from "../bount
 import { appChain } from "../wagmi";
 import "./CreateBounty.css";
 
-type TextField = Exclude<keyof BountyFormValues, "requiresKyc">;
+type TextField = keyof BountyFormValues;
 
 const AMOUNTS: [TextField, string][] = [
   ["reward", "Reward (ETH)"],
@@ -151,15 +151,6 @@ export function CreateBounty({ onCreate }: Props) {
 
         <div className="field-row">{AMOUNTS.map(input)}</div>
         <div className="field-row">{PERIODS.map(input)}</div>
-
-        <label className="checkbox-field">
-          <input
-            type="checkbox"
-            checked={values.requiresKyc}
-            onChange={(event) => set("requiresKyc", event.target.checked)}
-          />
-          Require a KYC attestation
-        </label>
 
         {error && (
           <p className="create-error" role="alert">

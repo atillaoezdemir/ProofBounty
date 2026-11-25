@@ -32,7 +32,7 @@ export const MOCK_BOUNTIES: ListedBounty[] = [
       decisionPeriod: 14n * DAY,
       appealPeriod: 7n * DAY,
       noticePeriod: 7n * DAY,
-      requiresKyc: false,
+      requiresKyc: true,
     },
   },
   {
@@ -74,7 +74,7 @@ export const MOCK_BOUNTIES: ListedBounty[] = [
       decisionPeriod: 7n * DAY,
       appealPeriod: 5n * DAY,
       noticePeriod: 5n * DAY,
-      requiresKyc: false,
+      requiresKyc: true,
     },
   },
 ];

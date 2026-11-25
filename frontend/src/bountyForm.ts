@@ -16,7 +16,6 @@ export interface BountyFormValues {
   decisionPeriod: string;
   appealPeriod: string;
   noticePeriod: string;
-  requiresKyc: boolean;
 }
 
 /** Periods and bonds are examples; the final values are open (docs/open-questions.md). */
@@ -33,7 +32,6 @@ export const INITIAL_VALUES: BountyFormValues = {
   decisionPeriod: "14",
   appealPeriod: "7",
   noticePeriod: "7",
-  requiresKyc: false,
 };
 
 const MAX_DAYS = 3650;
@@ -88,7 +86,7 @@ export function parseBountyForm(values: BountyFormValues): {
       decisionPeriod: parsePeriod("Decision period", values.decisionPeriod),
       appealPeriod: parsePeriod("Appeal period", values.appealPeriod),
       noticePeriod: parsePeriod("Notice period", values.noticePeriod),
-      requiresKyc: values.requiresKyc,
+      requiresKyc: true,
     },
   };
 }

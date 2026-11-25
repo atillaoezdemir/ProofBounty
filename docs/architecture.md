@@ -136,8 +136,8 @@ mechanism is open.
 
 ### 4.9 Simulated KYC
 
-*KYC* ("know your customer") is identity verification, typically including a sanctions check. Each
-bounty can require it. In this project KYC is **simulated**: a mock verifier contract issues
+*KYC* ("know your customer") is identity verification, typically including a sanctions check. Every
+whitehat needs it to submit a report. In this project KYC is **simulated**: a mock verifier contract issues
 on-chain *attestations* (signed statements such as "verified, not sanctioned") to whitehat
 addresses. There is no real KYC provider and no external connection. The bounty contract only
 checks whether an attestation exists.
@@ -204,8 +204,8 @@ The concrete delivery channel for the demo is open.
 ## 7. Submission lifecycle
 
 1. The company posts a bounty and locks the reward.
-2. The whitehat commits the report hash, pays the submission bond, and — if the bounty requires
-   it — must hold a KYC attestation.
+2. The whitehat commits the report hash, pays the submission bond, and must hold a KYC
+   attestation.
 3. The whitehat delivers the encrypted report off-chain and marks it as revealed on-chain.
 4. **Decision period** (e.g. 14 days):
    - **accept** → payout (exact timing is open);
