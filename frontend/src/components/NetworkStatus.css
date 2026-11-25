@@ -1,0 +1,22 @@
+.network {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.network::before {
+  content: "";
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-right: 0.4rem;
+  border-radius: 50%;
+  background-color: var(--color-text-muted);
+}
+
+.network-up::before {
+  background-color: var(--color-success);
+}
+
+.network-down::before {
+  background-color: var(--color-danger);
+}

@@ -1,4 +1,6 @@
 import "./App.css";
+import { ConnectWallet } from "./components/ConnectWallet";
+import { NetworkStatus } from "./components/NetworkStatus";
 
 export default function App() {
   return (
@@ -6,6 +8,8 @@ export default function App() {
       <header className="header">
         <div className="container header-inner">
           <h1 className="logo">ProofBounty</h1>
+          <NetworkStatus />
+          <ConnectWallet />
         </div>
       </header>
 
