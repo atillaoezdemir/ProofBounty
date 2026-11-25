@@ -6,7 +6,7 @@ import { hashText } from "./hashes";
 export interface BountyFormValues {
   title: string;
   scope: string;
-  versions: string; // one per line
+  versions: string[]; // one per target
   knownIssues: string;
   reward: string; // ETH
   submissionBond: string;
@@ -22,7 +22,7 @@ export interface BountyFormValues {
 export const INITIAL_VALUES: BountyFormValues = {
   title: "",
   scope: "",
-  versions: "",
+  versions: [""],
   knownIssues: "",
   reward: "",
   submissionBond: "0.1",
@@ -67,10 +67,9 @@ export function parseBountyForm(values: BountyFormValues): {
 } {
   const title = parseText("Title", values.title);
   const scope = parseText("Scope", values.scope);
-  const versions = parseText("Target versions", values.versions)
-    .split("\n")
-    .map((line) => line.trim())
-    .filter((line) => line !== "");
+  const versions = values.versions.map((version, index) =>
+    parseText(`Version of target ${index + 1}`, version),
+  );
 
   return {
     text: { title, scope },

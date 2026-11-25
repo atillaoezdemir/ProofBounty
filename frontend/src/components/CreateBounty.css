@@ -71,3 +71,21 @@
 .create-hint {
   color: var(--color-text-muted);
 }
+
+.targets {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border: 0;
+  font-size: 0.8rem;
+}
+
+.targets legend {
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.target-row {
+  display: flex;
+  gap: 0.5rem;
+}

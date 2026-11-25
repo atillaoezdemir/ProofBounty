@@ -6,7 +6,7 @@ import { type BountyFormValues, INITIAL_VALUES, parseBountyForm } from "../bount
 import { appChain } from "../wagmi";
 import "./CreateBounty.css";
 
-type TextField = keyof BountyFormValues;
+type TextField = Exclude<keyof BountyFormValues, "versions">;
 
 const AMOUNTS: [TextField, string][] = [
   ["reward", "Reward (ETH)"],
@@ -128,17 +128,43 @@ export function CreateBounty({ onCreate }: Props) {
             required
           />
         </div>
-        <div className="field">
-          <label htmlFor="versions">Target versions (one per line)</label>
-          <textarea
-            id="versions"
-            rows={2}
-            placeholder="Source commit hash or image digest"
-            value={values.versions}
-            onChange={(event) => set("versions", event.target.value)}
-            required
-          />
-        </div>
+        <fieldset className="targets">
+          <legend>Targets in scope</legend>
+          <p className="create-hint">
+            One entry per system. Disputes are checked against exactly this version, for example a
+            source commit hash or an image digest.
+          </p>
+          {values.versions.map((version, index) => (
+            <div className="target-row" key={index}>
+              <input
+                aria-label={`Version of target ${index + 1}`}
+                placeholder={`Version of target ${index + 1}`}
+                value={version}
+                onChange={(event) =>
+                  set("versions", values.versions.with(index, event.target.value))
+                }
+                required
+              />
+              {values.versions.length > 1 && (
+                <button
+                  type="button"
+                  className="secondary"
+                  aria-label={`Remove target ${index + 1}`}
+                  onClick={() => set("versions", values.versions.toSpliced(index, 1))}
+                >
+                  Remove
+                </button>
+              )}
+            </div>
+          ))}
+          <button
+            type="button"
+            className="secondary submit-btn"
+            onClick={() => set("versions", [...values.versions, ""])}
+          >
+            Add target
+          </button>
+        </fieldset>
         <div className="field">
           <label htmlFor="knownIssues">Known issues (only the hash is stored)</label>
           <textarea
