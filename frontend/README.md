@@ -34,8 +34,8 @@ The header shows the current block when the node is reachable.
 
 1. Import one of the test accounts printed by `npx hardhat node` into the wallet, preferably in a
    separate browser profile. Their private keys are public: use them on the local network only.
-2. Click **Connect wallet**. If the wallet is on another network, it is asked to add and switch
-   to Hardhat.
+2. Click **Connect wallet**. The wallet asks for the account. If it is on another network, a
+   second request adds and switches to Hardhat.
 
 To add the network by hand:
 

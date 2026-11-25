@@ -1,4 +1,5 @@
 import {
+  type Connector,
   ProviderNotFoundError,
   useConnect,
   useConnection,
@@ -17,6 +18,21 @@ export function ConnectWallet() {
   const disconnect = useDisconnect();
   const switchChain = useSwitchChain();
 
+  // Connecting only asks for an account, so a failing network switch cannot block it. The switch
+  // follows as a separate request.
+  function handleConnect(connector: Connector) {
+    connect.mutate(
+      { connector },
+      {
+        onSuccess: (data) => {
+          if (data.chainId !== appChain.id) {
+            switchChain.mutate({ chainId: appChain.id, connector });
+          }
+        },
+      },
+    );
+  }
+
   if (isConnected && address) {
     return (
       <div className="wallet">
@@ -26,7 +42,9 @@ export function ConnectWallet() {
             disabled={switchChain.isPending}
             onClick={() => switchChain.mutate({ chainId: appChain.id })}
           >
-            Switch to {appChain.name}
+            {switchChain.isPending
+              ? "Confirm the network in your wallet…"
+              : `Switch to ${appChain.name}`}
           </button>
         )}
         <span className="wallet-address" title={address}>
@@ -35,7 +53,7 @@ export function ConnectWallet() {
         <button className="secondary" onClick={() => disconnect.mutate({})}>
           Disconnect
         </button>
-        {switchChain.error && (
+        {switchChain.error && chainId !== appChain.id && (
           <p className="wallet-error" role="alert">
             {switchChain.error.message.split("\n")[0]}
           </p>
@@ -48,14 +66,27 @@ export function ConnectWallet() {
   const announced = connectors.filter((connector) => connector.id !== "injected");
   const options = announced.length > 0 ? announced : connectors;
 
+  if (connect.isPending) {
+    return (
+      <div className="wallet">
+        <span role="status">Waiting for your wallet…</span>
+        <button className="secondary" onClick={() => connect.reset()}>
+          Cancel
+        </button>
+        <p className="wallet-hint">
+          If no window appears, open the wallet extension, unlock it and confirm the request.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="wallet">
       {options.map((connector) => (
         <button
           key={connector.uid}
           className="primary"
-          disabled={connect.isPending}
-          onClick={() => connect.mutate({ connector, chainId: appChain.id })}
+          onClick={() => handleConnect(connector)}
         >
           {announced.length > 1 ? `Connect ${connector.name}` : "Connect wallet"}
         </button>
