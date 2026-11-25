@@ -97,3 +97,12 @@ Gaps noticed while writing the docs. They are listed here so nobody fills them i
   interface has a `revealPeriod` for this; confirm it and decide what happens to the bond.
 - **Other pending submissions.** What happens to them, and to their bonds, once the bounty has paid?
 - **Order of payouts.** Can a later report be paid while an earlier one is still open or in dispute?
+
+## Raised while setting up the dApp (not yet discussed by the team)
+
+- **Bounty texts.** The contract stores hashes only. Where do the bounty title, scope and
+  target version identifiers live so that whitehats can read them?
+- **Encoding of the bounty hashes.** How are scope, target versions and known issues turned into
+  hashes? The mock form uses keccak256 of the UTF-8 text.
+- **Known-issues secrecy.** The hash of a short known-issues list can be guessed by trial hashing.
+  Does it need a salt?

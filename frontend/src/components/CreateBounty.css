@@ -1,0 +1,86 @@
+.create-bounty {
+  display: flex;
+  flex-direction: column;
+}
+
+.create-btn {
+  align-self: flex-start;
+  font-size: 1rem;
+  padding: 0.75rem 1.5rem;
+}
+
+.create-bounty-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.create-bounty-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.create-bounty-header h2 {
+  font-size: 1.1rem;
+}
+
+.create-bounty-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.field label {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+}
+
+.checkbox-field {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: var(--color-text);
+}
+
+.checkbox-field input[type="checkbox"] {
+  width: auto;
+}
+
+.submit-btn {
+  align-self: flex-start;
+  margin-top: 0.5rem;
+  padding: 0.6rem 1.5rem;
+}
+
+.create-success {
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+  color: var(--color-success);
+}
+
+.create-error {
+  font-size: 0.875rem;
+  color: var(--color-danger);
+}
+
+.create-hint {
+  color: var(--color-text-muted);
+}

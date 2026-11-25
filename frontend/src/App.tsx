@@ -1,11 +1,12 @@
 import "./App.css";
 import { BountyList } from "./components/BountyList";
 import { ConnectWallet } from "./components/ConnectWallet";
+import { CreateBounty } from "./components/CreateBounty";
 import { NetworkStatus } from "./components/NetworkStatus";
 import { useBounties } from "./data/useBounties";
 
 export default function App() {
-  const { bounties } = useBounties();
+  const { bounties, createBounty } = useBounties();
 
   return (
     <>
@@ -18,6 +19,7 @@ export default function App() {
       </header>
 
       <main className="container main">
+        <CreateBounty onCreate={createBounty} />
         <BountyList bounties={bounties} />
       </main>
 
