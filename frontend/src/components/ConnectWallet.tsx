@@ -62,9 +62,11 @@ export function ConnectWallet() {
     );
   }
 
-  // Wallets that announce themselves (EIP-6963) replace the generic entry.
-  const announced = connectors.filter((connector) => connector.id !== "injected");
-  const options = announced.length > 0 ? announced : connectors;
+  // One button: MetaMask if installed, otherwise the wallet found in the browser.
+  const connector =
+    connectors.find(({ id }) => id === "io.metamask") ??
+    connectors.find(({ id }) => id !== "injected") ??
+    connectors[0];
 
   if (connect.isPending) {
     return (
@@ -82,15 +84,9 @@ export function ConnectWallet() {
 
   return (
     <div className="wallet">
-      {options.map((connector) => (
-        <button
-          key={connector.uid}
-          className="primary"
-          onClick={() => handleConnect(connector)}
-        >
-          {announced.length > 1 ? `Connect ${connector.name}` : "Connect wallet"}
-        </button>
-      ))}
+      <button className="primary" onClick={() => handleConnect(connector)}>
+        Connect wallet
+      </button>
       {connect.error && (
         <p className="wallet-error" role="alert">
           {connect.error instanceof ProviderNotFoundError
