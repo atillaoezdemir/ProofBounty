@@ -52,7 +52,7 @@ npm run test:ts          # TypeScript tests only
 contracts/    Solidity sources
 test/         Solidity (*.t.sol) and TypeScript (*.ts) tests
 scripts/      deployment scripts
-frontend/     dApp (later phase)
+frontend/     dApp (setup: frontend/README.md)
 docs/         project documentation
 ```
 

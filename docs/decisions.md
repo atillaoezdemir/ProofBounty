@@ -96,3 +96,4 @@ freely if the team prefers otherwise.
 | S-03 | 2026-11-24 | Contracts start as skeletons whose functions revert with `NotImplemented`; the owner of each contract fills them in. | Everything compiles from day one. |
 | S-04 | 2026-11-15 | The template's Hardhat Ignition sample module was removed; `scripts/` is empty. Whether deployment uses Ignition modules or plain scripts is decided when deployment is first needed. | The agreed layout has `/scripts` for deployment. |
 | S-05 | 2026-11-15 | The `sepolia` network entry in `hardhat.config.ts` is a template placeholder, not a testnet decision. | The demo testnet is an open question. |
+| S-06 | 2026-11-25 | The dApp in `frontend/` uses React, Vite and TypeScript, with viem and wagmi for wallet and network access. It has its own `package.json`. | A static client-side app needs no server; viem is already used by the tests (S-01) and wagmi adds its React hooks. |

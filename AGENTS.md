@@ -55,6 +55,7 @@ Use these role names consistently in docs and code (functions, events, variables
 - Solidity 0.8.34
 - Solidity tests: Foundry-style with `forge-std` (`*.t.sol`)
 - TypeScript tests: `node:test` + viem
+- Frontend: React, Vite, TypeScript, viem + wagmi (own `package.json` in `frontend/`)
 - Local Hardhat network for development; public testnet for the demo (not chosen yet)
 
 ## Commands
@@ -73,7 +74,7 @@ npm run test:ts          # TypeScript tests only
 contracts/          contracts, interfaces/ (how they call each other), shared/, test/ (harnesses)
 test/               Solidity tests (*.t.sol) and TypeScript tests (*.ts)
 scripts/            deployment scripts
-frontend/           dApp (later phase)
+frontend/           dApp
 docs/               architecture, decisions, open questions
 hardhat.config.ts
 .agents/skills/     Hardhat 3 and viem-toolbox guidance shipped by the Hardhat template
